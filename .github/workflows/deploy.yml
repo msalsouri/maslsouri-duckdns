@@ -17,7 +17,9 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ARGS: "-avz --delete"
-          SOURCE: "/"  # Adjust source if necessary
-          REMOTE_HOST: "msalsouri.duckdns.org"  # Your server's IP address
-          REMOTE_USER: "msalsouri"  # Your SSH username
-          TARGET: "/var/www/html/"  # Adjust target if necessary
+          SOURCE: "/"  # Change this if you want to deploy different directory
+          REMOTE_HOST: "msalsouri.duckdns.org"  # Replace with your server's IP address
+          REMOTE_USER: "msalsouri"  # Replace with your SSH username
+          REMOTE_PORT: 2222  # Use the new port number
+          TARGET: "/var/www/html/"  # Change this if you want to deploy to a different directory
+
