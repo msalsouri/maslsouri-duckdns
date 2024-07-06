@@ -1,0 +1,23 @@
+# WordPress Core
+/wp-admin/
+/wp-includes/
+/index.php
+/license.txt
+/readme.html
+/wp-*.php
+
+# Static Files
+/sitemap.xml
+/sitemap.xml.gz
+/wp-content/uploads/
+
+# Logs and Database Files
+/*.log
+*.sql
+*.tar.gz
+*.zip
+
+# OS Files
+.DS_Store
+Thumbs.db
+
