@@ -1,0 +1,23 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to server
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: "-avz --delete"
+          SOURCE: "/"  # Adjust source if necessary
+          REMOTE_HOST: "msalsouri.duckdns.org"  # Your server's IP address
+          REMOTE_USER: "msalsouri"  # Your SSH username
+          TARGET: "/var/www/html/"  # Adjust target if necessary
