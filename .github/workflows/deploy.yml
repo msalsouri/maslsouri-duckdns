@@ -1,4 +1,4 @@
-name: Deploy to Server
+name: Build and Deploy
 
 on:
   push:
@@ -6,8 +6,9 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: self-hosted
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -20,17 +21,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
+      - name: Build the project
         run: npm run build
 
-      - name: Deploy to server
-        uses: easingthemes/ssh-deploy@v2.1.5
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-avz --delete"
-          SOURCE: "dist/"  # Adjust this to your build output directory
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
-          TARGET: ${{ secrets.REMOTE_TARGET }}
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Rsync files
+        run: rsync -avz -e "ssh -p 2222 -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" ./dist/ msalsouri@msalsouri.duckdns.org:~/Projects/WordPress-Plugins-Dev/hoi-wp-plugins-dev/wp-content/
 
