@@ -34,9 +34,15 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Debug SSH key
+        run: ssh-add -L
+
       - name: Check connection to remote server
         run: ssh -vvv -p 2222 -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no msalsouri@msalsouri.duckdns.org 'echo "Connection successful"'
 
       - name: Rsync files
-        run: rsync -avz -e "ssh -p 2222 -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" ./dist/ msalsouri@msalsouri.duckdns.org:~/Projects/WordPress-Plugins-Dev/hoi-wp-plugins-dev/wp-content/
+        run: |
+          echo "Starting Rsync..."
+          rsync -avz -e "ssh -p 2222 -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" ./dist/ msalsouri@msalsouri.duckdns.org:~/Projects/WordPress-Plugins-Dev/hoi-wp-plugins-dev/wp-content/
+          echo "Rsync completed."
 
