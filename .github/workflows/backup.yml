@@ -9,7 +9,7 @@ on:
 
 jobs:
   backup:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
@@ -40,7 +40,9 @@ jobs:
         run: ssh-add -L
 
       - name: Check connection to remote server
-        run: ssh -vvv -p 2222 -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no msalsouri@msalsouri.duckdns.org 'echo "Connection successful"'
+        run: |
+          echo "Checking connection to remote server..."
+          ssh -vvv -p 2222 -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no msalsouri@msalsouri.duckdns.org 'echo "Connection successful"'
 
       - name: Rsync files
         run: |
@@ -50,6 +52,8 @@ jobs:
 
       - name: Push to Backup Repository
         run: |
-          git remote add backup https://github.com/hoiltd/hoi-wp-plugins-dev-backup.git
+          echo "Adding backup remote..."
+          git remote add backup git@github.com:hoiltd/hoi-wp-plugins-dev-backup.git
+          echo "Pushing to backup repository..."
           git push backup main --force
 
