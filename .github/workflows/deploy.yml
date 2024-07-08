@@ -35,10 +35,11 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Debug SSH key
-        run: ssh-add -L
-
-      - name: Check connection to remote server
-        run: ssh -vvv -p 2222 -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no msalsouri@msalsouri.duckdns.org 'echo "Connection successful"'
+        run: |
+          echo "Listing added SSH keys:"
+          ssh-add -L
+          echo "Connecting to remote server to verify key:"
+          ssh -vvv -p 2222 -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no msalsouri@msalsouri.duckdns.org 'echo "Connection successful"'
 
       - name: Rsync files
         run: |
