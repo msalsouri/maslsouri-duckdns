@@ -1,7 +1,10 @@
 <?php
 
+<<<<<<< HEAD
 require_once plugin_dir_path(__FILE__) . 'stripe-accounts.php';
 
+=======
+>>>>>>> be69608d9db36a582f1afca3bdd736b5d5f11c43
 class AcceptStripePayments_Admin {
 
 	/**
@@ -457,6 +460,7 @@ class AcceptStripePayments_Admin {
                 $asp_addons_menu_capability = apply_filters( 'asp_addons_menu_capability', ASP_MANAGEMENT_PERMISSION );
 		add_submenu_page( 'edit.php?post_type=' . ASPMain::$products_slug, __( 'Add-ons', 'stripe-payments' ), __( 'Add-ons', 'stripe-payments' ), $asp_addons_menu_capability, 'stripe-payments-addons', array( $this, 'display_addons_menu_page' ) );
 
+<<<<<<< HEAD
 		 // Add this line to include the new submenu
                 add_submenu_page(
                        'edit.php?post_type=' . ASPMain::$products_slug,
@@ -487,6 +491,11 @@ class AcceptStripePayments_Admin {
          }
 
 
+=======
+		add_action( 'admin_init', array( &$this, 'register_settings' ) );
+	}
+
+>>>>>>> be69608d9db36a582f1afca3bdd736b5d5f11c43
 	/**
 	 * Register Admin page settings
 	 *

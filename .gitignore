@@ -21,3 +21,8 @@
 .DS_Store
 Thumbs.db
 
+# Ignore dist directory but not dist/plugins/hoi-stripe-payments
+dist/
+!dist/plugins/
+!dist/plugins/hoi-stripe-payments/
+
