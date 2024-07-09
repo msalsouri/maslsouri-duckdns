@@ -53,6 +53,11 @@ jobs:
 
       - name: Push to Backup Repository
         run: |
+          echo "Checking if backup remote exists..."
+          if git remote | grep backup; then
+            echo "Removing existing backup remote..."
+            git remote remove backup
+          fi
           echo "Adding backup remote..."
           git remote add backup git@github.com:hoiltd/hoi-wp-plugins-dev-backup.git
           echo "Pushing to backup repository..."
