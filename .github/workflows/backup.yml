@@ -60,6 +60,6 @@ jobs:
           fi
           echo "Adding backup remote..."
           git remote add backup git@github.com:hoiltd/hoi-wp-plugins-dev-backup.git
-          echo "Pushing to backup repository..."
+          echo "Force pushing to backup repository..."
           git push backup main --force
 
