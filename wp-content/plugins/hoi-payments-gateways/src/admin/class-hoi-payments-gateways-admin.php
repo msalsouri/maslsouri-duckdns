@@ -1,102 +1,93 @@
 <?php
 
-/**
- * The admin-specific functionality of the plugin.
- *
- * @link       http://example.com
- * @since      1.0.0
- *
- * @package    Hoi_Payments_Gateways
- * @subpackage Hoi_Payments_Gateways/admin
- */
-
-/**
- * The admin-specific functionality of the plugin.
- *
- * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the admin-specific stylesheet and JavaScript.
- *
- * @package    Hoi_Payments_Gateways
- * @subpackage Hoi_Payments_Gateways/admin
- * @author     Your Name <email@example.com>
- */
 class Hoi_Payments_Gateways_Admin {
 
-    /**
-     * The ID of this plugin.
-     *
-     * @since    1.0.0
-     * @access   private
-     * @var      string    $plugin_name    The ID of this plugin.
-     */
     private $plugin_name;
-
-    /**
-     * The version of this plugin.
-     *
-     * @since    1.0.0
-     * @access   private
-     * @var      string    $version    The current version of this plugin.
-     */
     private $version;
 
-    /**
-     * Initialize the class and set its properties.
-     *
-     * @since    1.0.0
-     * @param      string    $plugin_name       The name of this plugin.
-     * @param      string    $version    The version of this plugin.
-     */
-    public function __construct( $plugin_name, $version ) {
-
+    public function __construct($plugin_name, $version) {
         $this->plugin_name = $plugin_name;
         $this->version = $version;
-
     }
 
-    /**
-     * Register the stylesheets for the admin area.
-     *
-     * @since    1.0.0
-     */
-    public function enqueue_styles() {
-
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in Hoi_Payments_Gateways_Loader as all of the hooks are defined
-         * in that particular class.
-         *
-         * The Hoi_Payments_Gateways_Loader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
-        wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/hoi-payments-gateways-admin.css', array(), $this->version, 'all' );
-
+    public function add_plugin_admin_menu() {
+        add_menu_page(
+            'Hoi Payments Gateways Settings',
+            'Hoi Payments Gateways',
+            'manage_options',
+            $this->plugin_name,
+            array($this, 'display_plugin_admin_page')
+        );
     }
 
-    /**
-     * Register the JavaScript for the admin area.
-     *
-     * @since    1.0.0
-     */
-    public function enqueue_scripts() {
-
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in Hoi_Payments_Gateways_Loader as all of the hooks are defined
-         * in that particular class.
-         *
-         * The Hoi_Payments_Gateways_Loader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
-        wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/hoi-payments-gateways-admin.js', array( 'jquery' ), $this->version, false );
-
+    public function display_plugin_admin_page() {
+        include_once 'partials/hoi-payments-gateways-admin-display.php';
     }
 
+    public function register_settings() {
+        register_setting(
+            'hoi_payments_gateways_group',
+            'hoi_payments_gateways_options'
+        );
+
+        add_settings_section(
+            'hoi_payments_gateways_section',
+            'General Settings',
+            null,
+            'hoi_payments_gateways'
+        );
+
+        add_settings_field(
+            'stripe_api_key',
+            'Stripe API Key',
+            array($this, 'stripe_api_key_callback'),
+            'hoi_payments_gateways',
+            'hoi_payments_gateways_section'
+        );
+
+        add_settings_field(
+            'stripe_api_secret',
+            'Stripe API Secret',
+            array($this, 'stripe_api_secret_callback'),
+            'hoi_payments_gateways',
+            'hoi_payments_gateways_section'
+        );
+
+        add_settings_field(
+            'paypal_client_id',
+            'PayPal Client ID',
+            array($this, 'paypal_client_id_callback'),
+            'hoi_payments_gateways',
+            'hoi_payments_gateways_section'
+        );
+
+        add_settings_field(
+            'paypal_client_secret',
+            'PayPal Client Secret',
+            array($this, 'paypal_client_secret_callback'),
+            'hoi_payments_gateways',
+            'hoi_payments_gateways_section'
+        );
+    }
+
+    public function stripe_api_key_callback() {
+        $options = get_option('hoi_payments_gateways_options');
+        echo '<input type="text" name="hoi_payments_gateways_options[stripe_api_key]" value="' . esc_attr($options['stripe_api_key']) . '">';
+    }
+
+    public function stripe_api_secret_callback() {
+        $options = get_option('hoi_payments_gateways_options');
+        echo '<input type="text" name="hoi_payments_gateways_options[stripe_api_secret]" value="' . esc_attr($options['stripe_api_secret']) . '">';
+    }
+
+    public function paypal_client_id_callback() {
+        $options = get_option('hoi_payments_gateways_options');
+        echo '<input type="text" name="hoi_payments_gateways_options[paypal_client_id]" value="' . esc_attr($options['paypal_client_id']) . '">';
+    }
+
+    public function paypal_client_secret_callback() {
+        $options = get_option('hoi_payments_gateways_options');
+        echo '<input type="text" name="hoi_payments_gateways_options[paypal_client_secret]" value="' . esc_attr($options['paypal_client_secret']) . '">';
+    }
 }
-
+?>

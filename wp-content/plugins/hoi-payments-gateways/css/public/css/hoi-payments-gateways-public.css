@@ -1,0 +1,37 @@
+/**
+ * This is the main stylesheet for the public-facing side of the plugin.
+ *
+ * @package    Hoi_Payments_Gateways
+ * @subpackage Hoi_Payments_Gateways/public/css
+ */
+
+/* Add your public-facing styles here */
+
+/* Example styles */
+body {
+    background-color: #f9f9f9;
+}
+
+.hoi-example-class {
+    color: #333;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.hoi-button {
+    background-color: #0073aa;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.hoi-button:hover {
+    background-color: #005177;
+}

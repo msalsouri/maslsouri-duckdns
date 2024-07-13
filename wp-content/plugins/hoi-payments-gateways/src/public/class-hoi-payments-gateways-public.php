@@ -1,102 +1,118 @@
 <?php
+require_once 'path/to/vendor/autoload.php'; // Adjust the path as needed
 
-/**
- * The public-facing functionality of the plugin.
- *
- * @link       http://example.com
- * @since      1.0.0
- *
- * @package    Hoi_Payments_Gateways
- * @subpackage Hoi_Payments_Gateways/public
- */
+use Stripe\Stripe;
+use Stripe\Charge;
+use PayPalCheckoutSdk\Core\PayPalHttpClient;
+use PayPalCheckoutSdk\Core\SandboxEnvironment;
+use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 
-/**
- * The public-facing functionality of the plugin.
- *
- * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the public-facing stylesheet and JavaScript.
- *
- * @package    Hoi_Payments_Gateways
- * @subpackage Hoi_Payments_Gateways/public
- * @author     Your Name <email@example.com>
- */
 class Hoi_Payments_Gateways_Public {
 
-    /**
-     * The ID of this plugin.
-     *
-     * @since    1.0.0
-     * @access   private
-     * @var      string    $plugin_name    The ID of this plugin.
-     */
-    private $plugin_name;
+    private $client;
 
-    /**
-     * The version of this plugin.
-     *
-     * @since    1.0.0
-     * @access   private
-     * @var      string    $version    The current version of this plugin.
-     */
-    private $version;
+    public function __construct() {
+        add_shortcode('hoi_stripe_payment', array($this, 'render_stripe_payment_form'));
+        add_action('wp_ajax_nopriv_process_stripe_payment', array($this, 'process_stripe_payment'));
+        add_action('wp_ajax_process_stripe_payment', array($this, 'process_stripe_payment'));
 
-    /**
-     * Initialize the class and set its properties.
-     *
-     * @since    1.0.0
-     * @param      string    $plugin_name       The name of this plugin.
-     * @param      string    $version    The version of this plugin.
-     */
-    public function __construct( $plugin_name, $version ) {
+        add_shortcode('hoi_paypal_payment', array($this, 'render_paypal_payment_button'));
+        add_action('wp_ajax_nopriv_process_paypal_payment', array($this, 'process_paypal_payment'));
+        add_action('wp_ajax_process_paypal_payment', array($this, 'process_paypal_payment'));
 
-        $this->plugin_name = $plugin_name;
-        $this->version = $version;
-
+        $options = get_option('hoi_payments_gateways_options');
+        $environment = new SandboxEnvironment($options['paypal_client_id'], $options['paypal_client_secret']);
+        $this->client = new PayPalHttpClient($environment);
     }
 
-    /**
-     * Register the stylesheets for the public-facing side of the site.
-     *
-     * @since    1.0.0
-     */
-    public function enqueue_styles() {
-
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in Hoi_Payments_Gateways_Loader as all of the hooks are defined
-         * in that particular class.
-         *
-         * The Hoi_Payments_Gateways_Loader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
-        wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/hoi-payments-gateways-public.css', array(), $this->version, 'all' );
-
+    public function render_stripe_payment_form() {
+        ob_start();
+        ?>
+        <form id="stripe-payment-form">
+            <input type="text" id="card-holder-name" placeholder="Card Holder Name">
+            <div id="card-element"></div>
+            <button id="card-button" data-secret="<?= $intent->client_secret ?>">Pay</button>
+        </form>
+        <script src="https://js.stripe.com/v3/"></script>
+        <script>
+            var stripe = Stripe('your-publishable-key-here');
+            var elements = stripe.elements();
+            var cardElement = elements.create('card');
+            cardElement.mount('#card-element');
+        </script>
+        <?php
+        return ob_get_clean();
     }
 
-    /**
-     * Register the JavaScript for the public-facing side of the site.
-     *
-     * @since    1.0.0
-     */
-    public function enqueue_scripts() {
+    public function process_stripe_payment() {
+        check_ajax_referer('process_stripe_payment', 'security');
 
-        /**
-         * This function is provided for demonstration purposes only.
-         *
-         * An instance of this class should be passed to the run() function
-         * defined in Hoi_Payments_Gateways_Loader as all of the hooks are defined
-         * in that particular class.
-         *
-         * The Hoi_Payments_Gateways_Loader will then create the relationship
-         * between the defined hooks and the functions defined in this
-         * class.
-         */
-        wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/hoi-payments-gateways-public.js', array( 'jquery' ), $this->version, false );
+        $options = get_option('hoi_payments_gateways_options');
+        Stripe::setApiKey($options['stripe_api_secret']);
 
+        $token = ['stripeToken'];
+        $charge = Charge::create([
+            'amount' => 1000, // Amount in cents
+            'currency' => 'usd',
+            'description' => 'Example charge',
+            'source' => $token,
+        ]);
+
+        if ($charge->status == 'succeeded') {
+            wp_send_json_success('Payment successful');
+        } else {
+            wp_send_json_error('Payment failed');
+        }
     }
 
+    public function render_paypal_payment_button() {
+        ob_start();
+        ?>
+        <div id="paypal-button-container"></div>
+        <script src="https://www.paypal.com/sdk/js?client-id=your-client-id"></script>
+        <script>
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: '10.00' // Can dynamically set the value here
+                            }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        alert('Transaction completed by ' + details.payer.name.given_name);
+                    });
+                }
+            }).render('#paypal-button-container');
+        </script>
+        <?php
+        return ob_get_clean();
+    }
+
+    public function process_paypal_payment() {
+        check_ajax_referer('process_paypal_payment', 'security');
+
+        $request = new OrdersCreateRequest();
+        $request->prefer('return=representation');
+        $request->body = [
+            'intent' => 'CAPTURE',
+            'purchase_units' => [[
+                'amount' => [
+                    'value' => '10.00',
+                    'currency_code' => 'USD'
+                ]
+            ]],
+        ];
+
+        try {
+            $response = $this->client->execute($request);
+            wp_send_json_success($response->result);
+        } catch (HttpException $ex) {
+            wp_send_json_error($ex->getMessage());
+        }
+    }
 }
-
+?>

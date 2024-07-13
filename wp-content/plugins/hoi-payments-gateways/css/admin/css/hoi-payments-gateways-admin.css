@@ -1,0 +1,43 @@
+/**
+ * This is the main stylesheet for the admin-facing side of the plugin.
+ *
+ * @package    Hoi_Payments_Gateways
+ * @subpackage Hoi_Payments_Gateways/admin/css
+ */
+
+/* You can add your CSS styles here */
+
+/* Example CSS */
+.hoi-payments-gateways-admin {
+    background-color: #f1f1f1;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.hoi-payments-gateways-admin h2 {
+    font-size: 24px;
+    color: #333;
+}
+
+.hoi-payments-gateways-admin .form-table th {
+    font-weight: 600;
+}
+
+.hoi-payments-gateways-admin .form-table td {
+    padding: 10px;
+}
+
+.hoi-payments-gateways-admin .form-table input,
+.hoi-payments-gateways-admin .form-table select {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.hoi-payments-gateways-admin .button-primary {
+    margin-top: 10px;
+}
