@@ -1,0 +1,17 @@
+{
+  "name": "hoi-wp-plugins-dev",
+  "version": "1.0.0",
+  "description": "WordPress Plugins Development",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"Building the project...\" && mkdir -p dist && cp -R wp-content/* dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hoiltd/hoi-wp-plugins-dev.git"
+  },
+  "author": "MOHAMMAD AL-SOURI",
+  "license": "MIT"
+}
+

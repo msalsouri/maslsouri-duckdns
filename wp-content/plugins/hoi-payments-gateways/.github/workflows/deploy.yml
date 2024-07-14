@@ -1,0 +1,49 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Check dist directory
+        run: |
+          echo "Checking dist directory"
+          ls -la dist
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Debug SSH key
+        run: |
+          echo "Listing added SSH keys:"
+          ssh-add -L
+          echo "Connecting to remote server to verify key:"
+          ssh -vvv -p 2222 -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no msalsouri@msalsouri.duckdns.org 'echo "Connection successful"'
+
+      - name: Rsync files
+        run: |
+          echo "Starting Rsync..."
+          rsync -avz -e "ssh -p 2222 -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" ./dist/ msalsouri@msalsouri.duckdns.org:~/Projects/WordPress-Plugins-Dev/hoi-wp-plugins-dev/wp-content/
+          echo "Rsync completed."
+
