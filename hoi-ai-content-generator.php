@@ -54,6 +54,7 @@ function ai_content_generator_page() {
             <input type="submit" name="get_seo_suggestions" value="Get SEO Suggestions">
         </form>
         <?php
+        // Handle form submissions for generating content and SEO suggestions
         if (isset($_POST['generate_content'])) {
             $content = ai_generate_content(sanitize_text_field($_POST['content_topic']));
             echo '<h2>Generated Content</h2>';
@@ -84,6 +85,7 @@ function ai_content_generator_settings_page() {
         <h1>AI Content Generator Settings</h1>
         <form method="post" action="options.php">
             <?php
+            // Output settings fields and sections
             settings_fields('ai_content_generator_settings');
             do_settings_sections('ai-content-generator-settings');
             submit_button();
@@ -95,9 +97,11 @@ function ai_content_generator_settings_page() {
     ob_end_flush();
 }
 
+// Initialize plugin settings
 add_action('admin_init', 'ai_content_generator_settings_init');
 
 function ai_content_generator_settings_init() {
+    // Add settings section
     add_settings_section(
         'ai_content_generator_section',
         'API Settings',
@@ -105,6 +109,7 @@ function ai_content_generator_settings_init() {
         'ai-content-generator-settings'
     );
 
+    // Add settings field for API key
     add_settings_field(
         'ai_content_generator_api_key',
         'API Key',
@@ -113,6 +118,7 @@ function ai_content_generator_settings_init() {
         'ai_content_generator_section'
     );
 
+    // Register settings
     register_setting('ai_content_generator_settings', 'ai_content_generator_api_key');
 }
 
@@ -190,12 +196,13 @@ function ai_get_seo_suggestions($content) {
 }
 
 /**
- * Section: Additional Functions (Commented Out)
+ * Section: Additional Functions (Uncommented)
  * Description: Placeholder functions for future expansion.
  */
 
 // Uncomment and integrate the following functions as needed for additional features
 
+// Function to generate meta tags
 function ai_generate_meta_tags($content) {
     $api_key = get_option('ai_content_generator_api_key');
     if (!$api_key) {
@@ -226,6 +233,7 @@ function ai_generate_meta_tags($content) {
     return isset($response['choices'][0]['text']) ? $response['choices'][0]['text'] : "Error: No response from AI.";
 }
 
+// Function to generate post titles
 function ai_generate_post_titles($content) {
     $api_key = get_option('ai_content_generator_api_key');
     if (!$api_key) {
@@ -256,6 +264,7 @@ function ai_generate_post_titles($content) {
     return isset($response['choices'][0]['text']) ? $response['choices'][0]['text'] : "Error: No response from AI.";
 }
 
+// Function to suggest internal links
 function ai_suggest_internal_links($content) {
     $api_key = get_option('ai_content_generator_api_key');
     if (!$api_key) {
@@ -286,6 +295,7 @@ function ai_suggest_internal_links($content) {
     return isset($response['choices'][0]['text']) ? $response['choices'][0]['text'] : "Error: No response from AI.";
 }
 
+// Function to analyze content readability
 function ai_analyze_content_readability($content) {
     $api_key = get_option('ai_content_generator_api_key');
     if (!$api_key) {
@@ -316,6 +326,7 @@ function ai_analyze_content_readability($content) {
     return isset($response['choices'][0]['text']) ? $response['choices'][0]['text'] : "Error: No response from AI.";
 }
 
+// Function to provide content outline
 function ai_provide_content_outline($topic) {
     $api_key = get_option('ai_content_generator_api_key');
     if (!$api_key) {
@@ -346,20 +357,7 @@ function ai_provide_content_outline($topic) {
     return isset($response['choices'][0]['text']) ? $response['choices'][0]['text'] : "Error: No response from AI.";
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// No closing PHP tag to avoid accidental whitespace
 
 
 
