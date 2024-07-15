@@ -1,1 +1,42 @@
-/* Add your admin styles here */
+.button {
+    font-size: 14px;
+    padding: 10px 20px;
+    border-radius: 4px;
+}
+
+.button-primary {
+    background-color: #007cba;
+    border-color: #006ba1;
+    color: #fff;
+}
+
+.button-secondary {
+    background-color: #dcdcdc;
+    border-color: #c6c6c6;
+    color: #333;
+}
+
+.notice {
+    padding: 10px;
+    margin: 10px 0;
+    border-left: 4px solid;
+    border-radius: 3px;
+}
+
+.notice-success {
+    background-color: #dff0d8;
+    border-color: #3c763d;
+    color: #3c763d;
+}
+
+.notice-dismissible .notice-dismiss {
+    position: relative;
+    float: right;
+    line-height: 20px;
+    padding: 0;
+    margin-right: -21px;
+    border: 0;
+    background: 0 0;
+    color: inherit;
+    cursor: pointer;
+}

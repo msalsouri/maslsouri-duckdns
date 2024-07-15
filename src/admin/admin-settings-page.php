@@ -51,7 +51,16 @@ function ai_content_generator_settings_init() {
         'ai_content_generator_section'
     );
 
+    add_settings_field(
+        'ai_content_generator_webhook_url',
+        'Webhook URL',
+        'ai_content_generator_webhook_url_callback',
+        'ai-content-generator-settings',
+        'ai_content_generator_section'
+    );
+
     register_setting('ai_content_generator_settings', 'ai_content_generator_api_key');
+    register_setting('ai_content_generator_settings', 'ai_content_generator_webhook_url');
 }
 
 function ai_content_generator_section_callback() {
@@ -61,4 +70,10 @@ function ai_content_generator_section_callback() {
 function ai_content_generator_api_key_callback() {
     $api_key = get_option('ai_content_generator_api_key');
     echo '<input type="text" name="ai_content_generator_api_key" value="' . esc_attr($api_key) . '" style="width: 100%;" />';
+}
+
+function ai_content_generator_webhook_url_callback() {
+    $webhook_url = get_option('ai_content_generator_webhook_url');
+    echo '<input type="text" name="ai_content_generator_webhook_url" value="' . esc_attr($webhook_url) . '" style="width: 100%;" />';
+    echo '<p class="description">Example: https://example.com/webhook-endpoint</p>';
 }
