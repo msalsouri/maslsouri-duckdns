@@ -44,6 +44,6 @@ jobs:
       - name: Rsync files
         run: |
           echo "Starting Rsync..."
-          rsync -avz -e "ssh -p 2222 -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" ./dist/ msalsouri@msalsouri.duckdns.org:~/Projects/WordPress-Plugins-Dev/hoi-wp-plugins-dev/wp-content/
+          rsync -avz -e "ssh -p 2222 -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" /var/www/html/wp-content/ msalsouri@msalsouri.duckdns.org:~/Projects/WordPress-Plugins-Dev/hoi-wp-plugins-dev/wp-content/
           echo "Rsync completed."
 
