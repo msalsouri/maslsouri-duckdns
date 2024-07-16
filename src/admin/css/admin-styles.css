@@ -1,42 +1,70 @@
-.button {
-    font-size: 14px;
-    padding: 10px 20px;
-    border-radius: 4px;
+body {
+    font-family: Arial, sans-serif;
 }
 
-.button-primary {
-    background-color: #007cba;
-    border-color: #006ba1;
-    color: #fff;
+.wrap {
+    background: #f7f7f7;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.button-secondary {
-    background-color: #dcdcdc;
-    border-color: #c6c6c6;
+h1, h2, h3 {
     color: #333;
 }
 
-.notice {
-    padding: 10px;
-    margin: 10px 0;
-    border-left: 4px solid;
+.button {
+    background-color: #007cba;
+    border-color: #006ba1;
+    color: #ffffff;
+    text-decoration: none;
     border-radius: 3px;
+    padding: 10px 20px;
+    display: inline-block;
+    margin-top: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #005a8e;
+    border-color: #004f77;
+}
+
+.input, .textarea {
+    border: 1px solid #cccccc;
+    padding: 10px;
+    width: calc(100% - 22px);
+    border-radius: 3px;
+    margin-top: 5px;
+}
+
+.notice-success, .notice-error {
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
 }
 
 .notice-success {
-    background-color: #dff0d8;
-    border-color: #3c763d;
-    color: #3c763d;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
 }
 
-.notice-dismissible .notice-dismiss {
-    position: relative;
-    float: right;
-    line-height: 20px;
-    padding: 0;
-    margin-right: -21px;
-    border: 0;
-    background: 0 0;
-    color: inherit;
-    cursor: pointer;
+.notice-error {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+#cache-clear-message {
+    margin-top: 20px;
+}
+
+.webhook-info {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
 }

@@ -1,18 +1,25 @@
-jQuery(document).ready(function($) {
-    $('#clear_cache').on('click', function(e) {
+jQuery(document).ready(function ($) {
+    $('#clear-cache-button').on('click', function (e) {
         e.preventDefault();
-        var data = {
-            'action': 'clear_cache',
-        };
-        $.post(ajaxurl, data, function(response) {
-            var successMessage = $('<div>', {
-                text: 'Cache Cleared Successfully',
-                class: 'notice notice-success is-dismissible'
-            }).prependTo('.wrap');
 
-            setTimeout(function() {
-                successMessage.fadeOut();
-            }, 3000);
+        $.ajax({
+            url: ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'hoi_clear_cache',
+            },
+            success: function (response) {
+                if (response.success) {
+                    // Display success message
+                    $('#cache-clear-message').html('<div class="notice notice-success is-dismissible"><p>' + response.data + '</p></div>');
+                } else {
+                    // Handle error
+                    $('#cache-clear-message').html('<div class="notice notice-error is-dismissible"><p>Failed to clear cache.</p></div>');
+                }
+            },
+            error: function () {
+                $('#cache-clear-message').html('<div class="notice notice-error is-dismissible"><p>Failed to clear cache.</p></div>');
+            },
         });
     });
 });

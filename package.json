@@ -1,0 +1,16 @@
+{
+  "name": "hoi-ai-content-generator",
+  "version": "1.0.0",
+  "description": "A plugin to generate content and provide SEO suggestions using AI.",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "sass src/public/css/styles.scss src/public/css/styles.css && postcss src/public/css/styles.css -o src/public/css/tailwind-build.css"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.39",
+    "postcss-cli": "^8.3.1",
+    "sass": "^1.77.8",
+    "tailwindcss": "^3.4.6"
+  }
+}

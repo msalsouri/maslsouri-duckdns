@@ -19,12 +19,14 @@ if (!defined('ABSPATH')) {
 
 // Include admin settings page
 require_once plugin_dir_path(__FILE__) . 'src/admin/admin-settings-page.php';
+require_once plugin_dir_path(__FILE__) . 'src/admin/stripe-settings-page.php';
+require_once plugin_dir_path(__FILE__) . 'src/admin/paypal-settings-page.php';
 
 // Include AI functions
 require_once plugin_dir_path(__FILE__) . 'src/includes/ai-functions.php';
 require_once plugin_dir_path(__FILE__) . 'src/includes/seo-functions.php';
 require_once plugin_dir_path(__FILE__) . 'src/includes/meta-functions.php';
-require_once plugin_dir_path(__FILE__) . 'src/includes/cache-functions.php';
+require_once plugin_dir_path(__FILE__) . 'src/includes/clear-cache.php';
 
 // Enqueue admin styles and scripts
 function hoi_admin_enqueue_scripts($hook_suffix) {
@@ -41,4 +43,3 @@ function hoi_public_enqueue_scripts() {
     wp_enqueue_script('hoi-public-scripts', plugin_dir_url(__FILE__) . 'src/public/js/public-scripts.js', array('jquery'), false, true);
 }
 add_action('wp_enqueue_scripts', 'hoi_public_enqueue_scripts');
-add_action('wp_ajax_clear_cache', 'clear_cache');

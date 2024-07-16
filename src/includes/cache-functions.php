@@ -1,12 +1,13 @@
 <?php
 
 function clear_cache() {
-    global $wpdb;
-    
-    // Add specific cache clearing logic here
-    // Example: Clearing WordPress transients
-    $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_%'");
-    $wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '_site_transient_%'");
+    // Logic to clear cache
+    $success = true; // Set to false if cache clearing fails
 
-    // You can add more specific cache clearing logic depending on your caching setup
+    if ($success) {
+        wp_send_json_success();
+    } else {
+        wp_send_json_error();
+    }
 }
+add_action('wp_ajax_clear_cache', 'clear_cache');
