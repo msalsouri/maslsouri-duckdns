@@ -19,6 +19,7 @@ if (!defined('ABSPATH')) {
 
 // Include admin settings page
 require_once plugin_dir_path(__FILE__) . 'src/admin/admin-settings-page.php';
+require_once plugin_dir_path(__FILE__) . 'src/admin/admin-menu.php';
 require_once plugin_dir_path(__FILE__) . 'src/admin/stripe-settings-page.php';
 require_once plugin_dir_path(__FILE__) . 'src/admin/paypal-settings-page.php';
 
@@ -26,11 +27,12 @@ require_once plugin_dir_path(__FILE__) . 'src/admin/paypal-settings-page.php';
 require_once plugin_dir_path(__FILE__) . 'src/includes/ai-functions.php';
 require_once plugin_dir_path(__FILE__) . 'src/includes/seo-functions.php';
 require_once plugin_dir_path(__FILE__) . 'src/includes/meta-functions.php';
+require_once plugin_dir_path(__FILE__) . 'src/includes/clear-cache.php';
 
 // Enqueue admin styles and scripts
 function hoi_admin_enqueue_scripts($hook_suffix) {
-    if (strpos($hook_suffix, 'ai-content-generator') !== false) {
-        wp_enqueue_style('hoi-admin-styles', plugin_dir_url(__FILE__) . 'src/public/css/tailwind-build.css');
+    if (strpos($hook_suffix, 'hoi-ai-content-generator') !== false) {
+        wp_enqueue_style('hoi-admin-styles', plugin_dir_url(__FILE__) . 'src/admin/css/admin-styles.css');
         wp_enqueue_script('hoi-admin-scripts', plugin_dir_url(__FILE__) . 'src/admin/js/admin-scripts.js', array('jquery'), false, true);
     }
 }

@@ -4,13 +4,13 @@
   "description": "A plugin to generate content and provide SEO suggestions using AI.",
   "main": "index.js",
   "scripts": {
-    "build:css": "sass src/public/css/styles.scss src/public/css/styles.css && postcss src/public/css/styles.css -o src/public/css/tailwind-build.css"
+    "build:css": "sass src/public/css/styles.scss src/public/css/styles.css && postcss src/public/css/styles.css -o src/public/css/tailwind-build.css --minify"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.19",
-    "postcss": "^8.4.39",
+    "autoprefixer": "^10.2.6",
+    "postcss": "^8.2.15",
     "postcss-cli": "^8.3.1",
-    "sass": "^1.77.8",
-    "tailwindcss": "^3.4.6"
+    "tailwindcss": "^3.4.6",
+    "sass": "^1.35.2"
   }
 }

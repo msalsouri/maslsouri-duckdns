@@ -12,7 +12,7 @@ jQuery(document).ready(function ($) {
                 if (response.success) {
                     $('#cache-clear-message').html('<div class="notice notice-success is-dismissible"><p>' + response.data + '</p></div>');
                 } else {
-                    $('#cache-clear-message').html('<div class="notice notice-error is-dismissible"><p>Failed to clear cache.</p></div>');
+                    $('#cache-clear-message').html('<div class="notice notice-error is-dismissible"><p>' + response.data + '</p></div>');
                 }
             },
             error: function () {
