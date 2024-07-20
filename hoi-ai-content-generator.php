@@ -18,10 +18,8 @@ if (!defined('ABSPATH')) {
 }
 
 // Include admin settings page
-require_once plugin_dir_path(__FILE__) . 'src/admin/admin-settings-page.php';
 require_once plugin_dir_path(__FILE__) . 'src/admin/admin-menu.php';
-require_once plugin_dir_path(__FILE__) . 'src/admin/stripe-settings-page.php';
-require_once plugin_dir_path(__FILE__) . 'src/admin/paypal-settings-page.php';
+require_once plugin_dir_path(__FILE__) . 'src/includes/register-stripe-settings.php';
 
 // Include AI functions
 require_once plugin_dir_path(__FILE__) . 'src/includes/ai-functions.php';
