@@ -26,6 +26,8 @@ jQuery(document).ready(function ($) {
     $('form').on('submit', function (e) {
         e.preventDefault();
         var $form = $(this);
+        // Clear previous messages
+        $('.notice').remove();
         $.post($form.attr('action'), $form.serialize(), function () {
             // Display success message
             $form.before('<div class="notice notice-success is-dismissible"><p>Settings saved successfully.</p></div>');

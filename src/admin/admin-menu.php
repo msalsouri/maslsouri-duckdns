@@ -58,3 +58,8 @@ function hoi_stripe_settings_page() {
 function hoi_paypal_settings_page() {
     include plugin_dir_path(__FILE__) . '../templates/paypal-settings-page.php';
 }
+
+function hoi_enqueue_admin_scripts() {
+    wp_enqueue_script('hoi-clear-messages', plugin_dir_url(__FILE__) . 'js/clear-messages.js', array('jquery'), null, true);
+}
+add_action('admin_enqueue_scripts', 'hoi_enqueue_admin_scripts');
